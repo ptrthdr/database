@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Car rental system</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <h1>Car rental system</h1>
+            <form action="/logout" method="post">
+                <button class="logout">Logout</button>
+            </form>
+        </div>
+
+        <!-- ALERT -->
+        <div th:if="${error}" class="error-box" th:text="${error}"></div>
+
+        <!-- FILTER -->
+        <form action="/view/cars/search" method="get" class="filter-form">
+            <input name="brand" placeholder="Filter by brand">
+
+            <select name="status">
+                <option value="">All statuses</option>
+                <option value="AVAILABLE">AVAILABLE</option>
+                <option value="RENTED">RENTED</option>
+            </select>
+
+            <button class="primary">Search</button>
+            <a href="/view/cars" class="secondary">Reset</a>
+        </form>
+
+        <!-- TABLE -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Status</th>
+                        <th class="actions-col">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="car : ${cars}">
+                        <td th:text="${car.carId}"></td>
+                        <td th:text="${car.brand}"></td>
+                        <td th:text="${car.model}"></td>
+
+                        <td>
+                            <span th:class="'status-' + ${car.status}" th:text="${car.status}">
+                            </span>
+                        </td>
+
+                        <td class="actions">
+                            <a th:href="@{/view/cars/edit/{id}(id=${car.carId})}" class="secondary small">Edit</a>
+
+                            <form th:action="@{/view/cars/delete/{id}(id=${car.carId})}" method="post"
+                                class="inline-form">
+                                <button class="danger small">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ADD CAR -->
+        <h2>Add new car</h2>
+
+        <form action="/view/cars/add" method="post" class="add-form">
+            <input name="brand" placeholder="Brand" required>
+            <input name="modelName" placeholder="Model" required>
+            <button class="primary">Add car</button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>

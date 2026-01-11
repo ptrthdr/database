@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Edit car</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <h1>Edit car</h1>
+            <a href="/view/cars" class="secondary">← Back</a>
+        </div>
+
+        <!-- EDIT FORM -->
+        <form action="/view/cars/edit" method="post" class="card">
+
+            <input type="hidden" name="id" th:value="${car.id}">
+
+            <label>Brand</label>
+            <input type="text" name="brand" th:value="${car.brand}" required>
+
+            <label>Model</label>
+            <input type="text" name="modelName" th:value="${car.model}" required>
+
+            <label>Status</label>
+            <select name="status">
+                <option value="AVAILABLE" th:selected="${car.status.name() == 'AVAILABLE'}">
+                    AVAILABLE
+                </option>
+                <option value="RENTED" th:selected="${car.status.name() == 'RENTED'}">
+                    RENTED
+                </option>
+            </select>
+
+            <div class="form-actions">
+                <button class="primary">Save changes</button>
+                <a href="/view/cars" class="secondary">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+</body>
+
+</html>
